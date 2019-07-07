@@ -1,13 +1,13 @@
 public class Student extends Person {
-    private String major;
+    private final String major;
 
-    public Student(String name, String lastName, String major) {
+    Student(String name, String lastName, String major) {
         super(name, lastName);
         this.major = major;
     }
 
     @Override
-    public String getFullName() {
+    String getFullName() {
         return super.getFullName() + ", " + major;
     }
 

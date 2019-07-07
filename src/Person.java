@@ -1,18 +1,18 @@
-public class Person {
-    private String name;
-    private String lastName;
+class Person {
+    private final String name;
+    private final String lastName;
 
-    public Person() {
+    Person() {
         this.name = "John";
         this.lastName = "Smith";
     }
 
-    public Person(String name, String lastName) {
+    Person(String name, String lastName) {
         this.name = name;
         this.lastName = lastName;
     }
 
-    public String getFullName() {
+    String getFullName() {
         return (name + " " + lastName);
     }
 
