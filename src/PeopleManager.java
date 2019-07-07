@@ -2,11 +2,6 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 
 class PeopleManager {
-    private String fileName;
-
-    PeopleManager(String fileName) {
-        this.fileName = fileName;
-    }
 
     int savePeople() {
         ArrayList<Person> people = new ArrayList<>();
@@ -16,14 +11,14 @@ class PeopleManager {
         people.add(new Student("Pam", "Beasley", "\"International Communication\""));
         people.add(new Student("Bob", "Vance", "\"Marketing\""));
 
-        return writeToFile(fileName, people);
+        return writeToFile(people);
     }
 
-    private int writeToFile(String fileName, ArrayList<Person> people) {
+    private int writeToFile(ArrayList<Person> people) {
         int i = 0;
 
         try {
-            FileWriter fw = new FileWriter(fileName, true);
+            FileWriter fw = new FileWriter(Constants.PERSONS_FILE_NAME, true);
             fw.write("---\n");
             for (Person person : people) {
                 System.out.println(person);
