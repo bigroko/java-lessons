@@ -1,0 +1,32 @@
+import java.io.FileWriter;
+import java.util.ArrayList;
+
+public class Main {
+
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+
+        ArrayList<Person> people = new ArrayList<>();
+
+        people.add(new Person());
+        people.add(new Person("Michael", "Scott"));
+        people.add(new Student("Pam", "Beasley", "\"International Communication\""));
+        people.add(new Student("Bob", "Vance", "\"Marketing\""));
+
+        writeToFile("students.txt", people);
+    }
+
+    private static void writeToFile(String fileName, ArrayList<Person> people) {
+        try {
+            FileWriter fw = new FileWriter(fileName, true);
+            fw.write("---\n");
+            for (Person person : people) {
+                System.out.println(person);
+                fw.write(person + "\n");
+            }
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
