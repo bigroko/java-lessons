@@ -18,7 +18,7 @@ class Main {
 
     private static void writeToFile(ArrayList<Person> people) {
         try {
-            FileWriter fw = new FileWriter("students.txt", true);
+            FileWriter fw = new FileWriter("persons.txt", true);
             fw.write("---\n");
             for (Person person : people) {
                 System.out.println(person);
