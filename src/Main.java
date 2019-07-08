@@ -1,9 +1,15 @@
 class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        class SavePeopleListener implements PeopleManager.ISavePeopleListener {
+            public void onSavePeople(int numOfPeople) {
+                System.out.println(numOfPeople + " people were saved");
+            }
+        }
 
         PeopleManager peopleManager = new PeopleManager();
-        System.out.println(peopleManager.savePeople() + " people were saved");
+        PeopleManager.ISavePeopleListener savePeopleListener = new SavePeopleListener();
+        peopleManager.setSavePeopleListener(savePeopleListener);
+        peopleManager.savePeople();
     }
 }

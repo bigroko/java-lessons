@@ -2,8 +2,20 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 
 class PeopleManager {
+    private ArrayList<ISavePeopleListener> listeners;
 
-    int savePeople() {
+    interface ISavePeopleListener {
+        void onSavePeople(int numOfPeople);
+    }
+
+    void setSavePeopleListener(ISavePeopleListener listener) {
+        if (listeners == null) {
+            listeners = new ArrayList<>();
+        }
+        listeners.add(listener);
+    }
+
+    void savePeople() {
         ArrayList<Person> people = new ArrayList<>();
 
         people.add(new Person());
@@ -11,7 +23,15 @@ class PeopleManager {
         people.add(new Student("Pam", "Beasley", "\"International Communication\""));
         people.add(new Student("Bob", "Vance", "\"Marketing\""));
 
-        return writeToFile(people);
+        notifySavePeopleListeners(writeToFile(people));
+    }
+
+    private void notifySavePeopleListeners (int numOfPeople) {
+        if (listeners != null) {
+            for(ISavePeopleListener listener : listeners) {
+                listener.onSavePeople(numOfPeople);
+            }
+        }
     }
 
     private int writeToFile(ArrayList<Person> people) {
