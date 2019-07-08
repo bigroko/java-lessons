@@ -7,9 +7,9 @@ class Main {
             }
         }
 
-        PeopleManager peopleManager = new PeopleManager();
         PeopleManager.ISavePeopleListener savePeopleListener = new SavePeopleListener();
-        peopleManager.setSavePeopleListener(savePeopleListener);
-        peopleManager.savePeople();
+        PeopleManager.GetInstance().addSavePeopleListener(savePeopleListener);
+        PeopleManager.GetInstance().savePeople();
+        PeopleManager.GetInstance().removeSavePeopleListener(savePeopleListener);
     }
 }
