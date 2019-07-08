@@ -1,15 +1,24 @@
 class Main {
-
     public static void main(String[] args) {
-        class SavePeopleListener implements PeopleManager.ISavePeopleListener {
-            public void onSavePeople(int numOfPeople) {
-                System.out.println(numOfPeople + " people were saved");
-            }
+        System.out.println("Entering main...");
+
+        try {
+            SavePeopleListener listener = new SavePeopleListener();
+            PeopleManager.GetInstance().addSavePeopleListener(listener);
+            Thread thread = new Thread(PeopleManager.GetInstance());
+            thread.start();
+            thread.join();
+            PeopleManager.GetInstance().removeSavePeopleListener(listener);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        PeopleManager.ISavePeopleListener savePeopleListener = new SavePeopleListener();
-        PeopleManager.GetInstance().addSavePeopleListener(savePeopleListener);
-        PeopleManager.GetInstance().savePeople();
-        PeopleManager.GetInstance().removeSavePeopleListener(savePeopleListener);
+        System.out.println("Exiting main...");
+    }
+}
+
+class SavePeopleListener implements PeopleManager.ISavePeopleListener {
+    public void onSavePeople(final int numOfPeople) {
+        System.out.println("Catching event: " + numOfPeople + " people were saved");
     }
 }

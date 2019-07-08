@@ -1,12 +1,14 @@
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
-class PeopleManager {
+class PeopleManager implements Runnable {
     private static PeopleManager peopleManager = null;
-    private ArrayList<ISavePeopleListener> listeners;
+    private final Set<ISavePeopleListener> listeners = new CopyOnWriteArraySet<>();
 
+    //Private constructor to implement singleton
     private PeopleManager() {
-        //Private constructor to avoid create an instance outside this class
     }
 
     //Singleton
@@ -17,25 +19,10 @@ class PeopleManager {
         return peopleManager;
     }
 
-    //Add observers
-    void addSavePeopleListener(ISavePeopleListener listener) {
-        if (listeners == null) {
-            listeners = new ArrayList<>();
-        }
-        if (!listeners.contains(listener)) {
-            listeners.add(listener);
-        }
-    }
+    //Thread start point
+    public void run() {
+        System.out.println("Entering PeopleManager.run()...");
 
-    //Remove observers
-    void removeSavePeopleListener(ISavePeopleListener listener) {
-        if (listeners != null) {
-            listeners.remove(listener);
-        }
-    }
-
-    //Main procedure
-    void savePeople() {
         ArrayList<Person> people = new ArrayList<>();
 
         people.add(new Person());
@@ -44,14 +31,27 @@ class PeopleManager {
         people.add(new Student("Bob", "Vance", "\"Marketing\""));
 
         notifySavePeopleListeners(writeToFile(people));
+
+        System.out.println("Exiting PeopleManager.run()...");
+    }
+
+    //Add observers
+    void addSavePeopleListener(final ISavePeopleListener listener) {
+        System.out.println("Adding listener...");
+        listeners.add(listener);
+    }
+
+    //Remove observers
+    void removeSavePeopleListener(final ISavePeopleListener listener) {
+        System.out.println("Removing listener...");
+        listeners.remove(listener);
     }
 
     //Raise an event for all the observers
     private void notifySavePeopleListeners(int numOfPeople) {
-        if (listeners != null) {
-            for (ISavePeopleListener listener : listeners) {
-                listener.onSavePeople(numOfPeople);
-            }
+        for (ISavePeopleListener listener : listeners) {
+            System.out.println("Generating event...");
+            listener.onSavePeople(numOfPeople);
         }
     }
 
@@ -61,6 +61,7 @@ class PeopleManager {
 
         try {
             FileWriter fw = new FileWriter(Constants.PERSONS_FILE_NAME, true);
+            System.out.println("Starting writing to file...");
             fw.write("---\n");
             for (Person person : people) {
                 System.out.println(person);
@@ -68,6 +69,7 @@ class PeopleManager {
                 i++;
             }
             fw.close();
+            System.out.println("Ending writing to file...");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,6 +79,6 @@ class PeopleManager {
 
     //Interface to implement an observer
     interface ISavePeopleListener {
-        void onSavePeople(int numOfPeople);
+        void onSavePeople(final int numOfPeople);
     }
 }
