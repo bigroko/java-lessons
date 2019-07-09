@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 class PeopleManager implements Runnable {
-    private static PeopleManager peopleManager = null;
+    private static volatile PeopleManager peopleManager = null;
     private final Set<ISavePeopleListener> listeners = new CopyOnWriteArraySet<>();
 
     //Private constructor to implement singleton
@@ -12,9 +12,13 @@ class PeopleManager implements Runnable {
     }
 
     //Singleton
-    static PeopleManager GetInstance() {
+    static PeopleManager getInstance() {
         if (peopleManager == null) {
-            peopleManager = new PeopleManager();
+            synchronized (PeopleManager.class) {
+                if (peopleManager == null) {
+                    peopleManager = new PeopleManager();
+                }
+            }
         }
         return peopleManager;
     }

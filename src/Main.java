@@ -4,11 +4,11 @@ class Main {
 
         try {
             SavePeopleListener listener = new SavePeopleListener();
-            PeopleManager.GetInstance().addSavePeopleListener(listener);
-            Thread thread = new Thread(PeopleManager.GetInstance());
+            PeopleManager.getInstance().addSavePeopleListener(listener);
+            Thread thread = new Thread(PeopleManager.getInstance());
             thread.start();
             thread.join();
-            PeopleManager.GetInstance().removeSavePeopleListener(listener);
+            PeopleManager.getInstance().removeSavePeopleListener(listener);
         } catch (Exception e) {
             e.printStackTrace();
         }
