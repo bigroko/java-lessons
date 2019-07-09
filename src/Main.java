@@ -1,7 +1,6 @@
 class Main {
     public static void main(String[] args) {
         System.out.println("Entering main...");
-
         try {
             SavePeopleListener listener = new SavePeopleListener();
             PeopleManager.getInstance().addSavePeopleListener(listener);
@@ -9,15 +8,14 @@ class Main {
             thread.start();
             thread.join();
             PeopleManager.getInstance().removeSavePeopleListener(listener);
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         System.out.println("Exiting main...");
     }
 }
 
-class SavePeopleListener implements PeopleManager.ISavePeopleListener {
+class SavePeopleListener implements PeopleManager.PeopleListener {
     public void onSavePeople(final int numOfPeople) {
         System.out.println("Catching event: " + numOfPeople + " people were saved");
     }

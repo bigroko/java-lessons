@@ -1,11 +1,11 @@
 import java.io.FileWriter;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 class PeopleManager implements Runnable {
     private static volatile PeopleManager peopleManager = null;
-    private final Set<ISavePeopleListener> listeners = new CopyOnWriteArraySet<>();
+    private final Set<PeopleListener> listeners = new CopyOnWriteArraySet<>();
 
     //Private constructor to implement singleton
     private PeopleManager() {
@@ -26,43 +26,39 @@ class PeopleManager implements Runnable {
     //Thread start point
     public void run() {
         System.out.println("Entering PeopleManager.run()...");
-
-        ArrayList<Person> people = new ArrayList<>();
-
-        people.add(new Person());
-        people.add(new Person("Michael", "Scott"));
-        people.add(new Student("Pam", "Beasley", "\"International Communication\""));
-        people.add(new Student("Bob", "Vance", "\"Marketing\""));
-
+        Person[] people = new Person[]{
+                new Person(),
+                new Person("Michael", "Scott"),
+                new Student("Pam", "Beasley", "\"International Communication\""),
+                new Student("Bob", "Vance", "\"Marketing\"")
+        };
         notifySavePeopleListeners(writeToFile(people));
-
         System.out.println("Exiting PeopleManager.run()...");
     }
 
     //Add observers
-    void addSavePeopleListener(final ISavePeopleListener listener) {
+    void addSavePeopleListener(final PeopleListener listener) {
         System.out.println("Adding listener...");
         listeners.add(listener);
     }
 
     //Remove observers
-    void removeSavePeopleListener(final ISavePeopleListener listener) {
+    void removeSavePeopleListener(final PeopleListener listener) {
         System.out.println("Removing listener...");
         listeners.remove(listener);
     }
 
     //Raise an event for all the observers
     private void notifySavePeopleListeners(int numOfPeople) {
-        for (ISavePeopleListener listener : listeners) {
-            System.out.println("Generating event...");
+        for (PeopleListener listener : listeners) {
+            System.out.println("Generating SavePeople event...");
             listener.onSavePeople(numOfPeople);
         }
     }
 
     //Work with file
-    private int writeToFile(ArrayList<Person> people) {
+    private int writeToFile(Person[] people) {
         int i = 0;
-
         try {
             FileWriter fw = new FileWriter(Constants.PERSONS_FILE_NAME, true);
             System.out.println("Starting writing to file...");
@@ -74,15 +70,14 @@ class PeopleManager implements Runnable {
             }
             fw.close();
             System.out.println("Ending writing to file...");
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
         return i;
     }
 
     //Interface to implement an observer
-    interface ISavePeopleListener {
+    interface PeopleListener {
         void onSavePeople(final int numOfPeople);
     }
 }
