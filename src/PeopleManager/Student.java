@@ -1,3 +1,5 @@
+package PeopleManager;
+
 class Student extends Person {
     private final String major;
 

@@ -1,3 +1,5 @@
+package PeopleManager;
+
 class Main {
     public static void main(String[] args) {
         System.out.println("Entering main...");
@@ -12,11 +14,5 @@ class Main {
             e.printStackTrace();
         }
         System.out.println("Exiting main...");
-    }
-}
-
-class SavePeopleListener implements PeopleManager.PeopleListener {
-    public void onSavePeople(final int numOfPeople) {
-        System.out.println("Catching event: " + numOfPeople + " people were saved");
     }
 }
