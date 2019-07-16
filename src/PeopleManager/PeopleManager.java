@@ -61,8 +61,8 @@ class PeopleManager implements Runnable {
     //Work with file
     private int writeToFile(Person[] people) {
         int i = 0;
-        try {
-            FileWriter fw = new FileWriter(Constants.PERSONS_FILE_NAME, true);
+
+        try (FileWriter fw = new FileWriter(Constants.PERSONS_FILE_NAME, true)) {
             System.out.println("Starting writing to file...");
             fw.write("---\n");
             for (Person person : people) {
@@ -70,11 +70,11 @@ class PeopleManager implements Runnable {
                 fw.write(person + "\n");
                 i++;
             }
-            fw.close();
             System.out.println("Ending writing to file...");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return i;
     }
 
