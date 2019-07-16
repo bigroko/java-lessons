@@ -1,6 +1,7 @@
 package KnightsTour;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Formatter;
 import java.util.List;
 
@@ -16,7 +17,7 @@ class Board {
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
             for (int j = 0; j < Constants.BOARD_SIZE; j++) {
                 board[i][j] = new Cell(
-                        Character.toString(Constants.BOARD_START_CHAR + j) + (Constants.BOARD_SIZE - i),
+                        Character.toString((char) (Constants.BOARD_START_CHAR + j)) + (Constants.BOARD_SIZE - i),
                         i,
                         j,
                         i == randomRow && j == randomColumn);
@@ -66,7 +67,8 @@ class Board {
         Formatter formatter = new Formatter(boardString);
         StringBuilder delimiter = new StringBuilder(128);
 
-        delimiter.append("+---".repeat(Constants.BOARD_SIZE));
+        delimiter.append("+");
+        delimiter.append(String.join("+", Collections.nCopies(Constants.BOARD_SIZE, "---")));
         delimiter.append("+\n");
         boardString.append(delimiter);
 

@@ -45,6 +45,6 @@ class Cell {
 
     @Override
     public String toString() {
-        return isStartCell ? " ".repeat(id.length()) : id;
+        return isStartCell ? "" : id;
     }
 }
