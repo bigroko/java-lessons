@@ -6,7 +6,7 @@ class Cell {
     private final int column;
     private final boolean isStartCell;
     private int step;
-    private boolean isTaken = false;
+    private boolean isTaken;
 
     Cell(String id, int row, int column, boolean isStartCell) {
         this.id = id;

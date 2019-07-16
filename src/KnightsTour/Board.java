@@ -28,8 +28,27 @@ class Board {
         }
     }
 
-    void Start() {
-        System.out.println(getNextCells(startCell));
+    int Start() {
+        Cell currentCell = startCell;
+        Cell previousCell;
+        ArrayList<Cell> nextCells = getNextCells(currentCell);
+
+        while (nextCells.size() != 0) {
+            int minMoves = Integer.MAX_VALUE;
+            previousCell = currentCell;
+            for (Cell nextCell : nextCells) {
+                int moves = getNextCells(nextCell).size();
+                if (moves < minMoves) {
+                    minMoves = moves;
+                    currentCell = nextCell;
+                }
+            }
+            currentCell.setIsTaken(true);
+            currentCell.setStep(previousCell.getStep() + 1);
+            nextCells = getNextCells(currentCell);
+        }
+
+        return currentCell.getStep();
     }
 
     @Override
@@ -53,7 +72,7 @@ class Board {
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
             for (int j = 0; j < Constants.BOARD_SIZE; j++) {
                 if (solution) {
-                    formatter.format("|%3d", board[i][j].getStep());
+                    formatter.format("|%3s", board[i][j].getStep() == 0 ? "" : board[i][j].getStep());
                 } else {
                     formatter.format("|%3s", board[i][j]);
                 }
@@ -73,9 +92,8 @@ class Board {
             int nextColumn = currentCell.getColumn() + delta[1];
             if ((nextRow >= 0 && nextRow < Constants.BOARD_SIZE) &&
                     (nextColumn >= 0 && nextColumn < Constants.BOARD_SIZE)) {
-                Cell nextCell = board[nextRow][nextColumn];
-                if (!nextCell.getIsTaken()) {
-                    cells.add(nextCell);
+                if (!board[nextRow][nextColumn].getIsTaken()) {
+                    cells.add(board[nextRow][nextColumn]);
                 }
             }
         }

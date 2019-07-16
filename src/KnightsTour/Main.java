@@ -7,8 +7,8 @@ class Main {
         Board board = new Board();
         System.out.println("Initial board:\n" + board);
 
-        board.Start();
+        int steps = board.Start();
 
-        System.out.println("Solution:\n" + board.toSolutionString());
+        System.out.println("Solution (" + steps + " steps):\n" + board.toSolutionString());
     }
 }
