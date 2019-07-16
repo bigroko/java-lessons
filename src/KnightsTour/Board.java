@@ -61,7 +61,7 @@ class Board {
     }
 
     private String print(boolean solution) {
-        StringBuilder boardString = new StringBuilder(512);
+        StringBuilder boardString = new StringBuilder(1024);
         Formatter formatter = new Formatter(boardString);
         StringBuilder delimiter = new StringBuilder(128);
 
