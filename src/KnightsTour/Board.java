@@ -2,6 +2,7 @@ package KnightsTour;
 
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.List;
 
 class Board {
     private final Cell[][] board;
@@ -31,7 +32,7 @@ class Board {
     int Start() {
         Cell currentCell = startCell;
         Cell previousCell;
-        ArrayList<Cell> nextCells = getNextCells(currentCell);
+        List<Cell> nextCells = getNextCells(currentCell);
 
         while (nextCells.size() != 0) {
             int minMoves = Integer.MAX_VALUE;
@@ -84,8 +85,8 @@ class Board {
         return boardString.toString();
     }
 
-    private ArrayList<Cell> getNextCells(Cell currentCell) {
-        ArrayList<Cell> cells = new ArrayList<>();
+    private List<Cell> getNextCells(Cell currentCell) {
+        List<Cell> cells = new ArrayList<>();
 
         for (int[] delta : Constants.KNIGHT_MOVE_PATTERN) {
             int nextRow = currentCell.getRow() + delta[0];
