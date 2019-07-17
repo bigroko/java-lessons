@@ -1,4 +1,4 @@
-package PeopleManager;
+package main.java.PeopleManager;
 
 class SavePeopleListener implements PeopleManager.PeopleListener {
     public void onSavePeople(final int numOfPeople) {

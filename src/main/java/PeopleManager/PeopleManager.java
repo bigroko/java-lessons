@@ -1,4 +1,4 @@
-package PeopleManager;
+package main.java.PeopleManager;
 
 import java.io.FileWriter;
 import java.io.IOException;

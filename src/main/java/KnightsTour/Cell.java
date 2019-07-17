@@ -1,4 +1,4 @@
-package KnightsTour;
+package main.java.KnightsTour;
 
 class Cell {
     private final String id;
@@ -45,6 +45,6 @@ class Cell {
 
     @Override
     public String toString() {
-        return isStartCell ? "" : id;
+        return id;
     }
 }

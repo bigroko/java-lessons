@@ -1,4 +1,4 @@
-package PeopleManager;
+package main.java.PeopleManager;
 
 class Student extends Person {
     private final String major;

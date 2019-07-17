@@ -1,4 +1,4 @@
-package KnightsTour;
+package main.java.KnightsTour;
 
 class Constants {
     static final int BOARD_SIZE = 8;

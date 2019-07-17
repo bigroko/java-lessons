@@ -1,4 +1,4 @@
-package KnightsTour;
+package main.java.KnightsTour;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,10 +6,9 @@ import java.util.Formatter;
 import java.util.List;
 
 class Board {
-    private final Cell[][] board;
-    private Cell startCell;
+    private Cell[][] board;
 
-    Board() {
+    void initialize() {
         int randomRow = (int) (Math.random() * Constants.BOARD_SIZE);
         int randomColumn = (int) (Math.random() * Constants.BOARD_SIZE);
         board = new Cell[Constants.BOARD_SIZE][Constants.BOARD_SIZE];
@@ -21,17 +20,22 @@ class Board {
                         i,
                         j,
                         i == randomRow && j == randomColumn);
-                if (board[i][j].getIsStartCell()) {
-                    startCell = board[i][j];
-                    startCell.setIsTaken(true);
-                    startCell.setStep(1);
-                }
             }
         }
     }
 
-    int Start() {
-        Cell currentCell = startCell;
+    int start() throws BoardNotInitializedException {
+        if (board == null) {
+            throw new BoardNotInitializedException();
+        }
+
+        Cell currentCell = getStartCell();
+        if (currentCell == null) {
+            return 0;
+        }
+        currentCell.setIsTaken(true);
+        currentCell.setStep(1);
+
         Cell previousCell;
         List<Cell> nextCells = getNextCells(currentCell);
 
@@ -62,14 +66,28 @@ class Board {
         return print(true);
     }
 
+    private Cell getStartCell() {
+        if (board != null) {
+            for (int i = 0; i < Constants.BOARD_SIZE; i++) {
+                for (int j = 0; j < Constants.BOARD_SIZE; j++) {
+                    if (board[i][j].getIsStartCell()) {
+                        return board[i][j];
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
     private String print(boolean solution) {
+        if (board == null) {
+            return "";
+        }
         StringBuilder boardString = new StringBuilder(1024);
         Formatter formatter = new Formatter(boardString);
-        StringBuilder delimiter = new StringBuilder(128);
-
-        delimiter.append("+");
-        delimiter.append(String.join("+", Collections.nCopies(Constants.BOARD_SIZE, "---")));
-        delimiter.append("+\n");
+        String delimiter = String.format(
+                "+%s+\n", String.join("+", Collections.nCopies(Constants.BOARD_SIZE, "---")));
         boardString.append(delimiter);
 
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
@@ -77,7 +95,7 @@ class Board {
                 if (solution) {
                     formatter.format("|%3s", board[i][j].getStep() == 0 ? "" : board[i][j].getStep());
                 } else {
-                    formatter.format("|%3s", board[i][j]);
+                    formatter.format("|%3s", board[i][j].getIsStartCell() ? "" : board[i][j]);
                 }
             }
             boardString.append("|\n");

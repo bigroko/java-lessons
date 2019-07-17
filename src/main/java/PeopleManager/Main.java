@@ -1,4 +1,4 @@
-package PeopleManager;
+package main.java.PeopleManager;
 
 class Main {
     public static void main(String[] args) {
